@@ -1,0 +1,4 @@
+config.mk
+__pycache__
+.idea
+/build

@@ -1,0 +1,34 @@
+Shared Memory & IPC Channel
+===========================
+
+This project contains a wrapper object to work with shared memory
+and an implementation of IPC channel based on that.
+
+Basic Info
+----------
+
+  - **Author:** Jiří Janoušek
+  - **License:** [BSD-2-Clause](./LICENSE)
+  - **Supported platforms:** Unix with POSIX shared memory and POSIX semaphores.
+  - **Documentation:** See doc comments. TODO: Generate Valadoc.
+  - **Examples:** See [lib/examples](./lib/examples)
+  - **Test suite:** TODO
+  - **Status:** ABI-unstable
+
+Build Info
+----------
+
+### Dependencies
+
+  - GNU Make
+  - Python 3
+  - Valac
+  - g-ir-compiler
+  - glib-2.0 and friends (and respective GIR XML files)
+
+### Build
+
+```bash
+./configure
+make all
+```
