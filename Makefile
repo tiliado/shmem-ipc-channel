@@ -46,6 +46,9 @@ doc-lib: $(LIB_VALA_FILES) $(LIB_VAPI_FILES)
 	rm -rf $(LIB_DOC_DEVHELP)
 	valadoc --package-name=$(LIB_NAME) -o $(LIB_DOC_DEVHELP) --doclet=devhelp --pkg posix $^
 
+cffi-shmch:
+	python3.6 ./cffibuilders/shmch.py
+
 typelib-symlink:
 	ln -sv "$(PWD)/$(OUT)/$(LIB_TYPELIB)" "/usr/lib/girepository-1.0/$(LIB_TYPELIB)"
 

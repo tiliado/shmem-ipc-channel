@@ -1,7 +1,0 @@
-project("shmchannel", "0.0.1")
-var("CC ?= gcc")
-var("OUT := build\n")
-var("TARGET_GLIB := %s", pkg_version("glib-2.0", 2))
-cflags("-g -O3 -I$(OUT)")
-ldflags("-L$(OUT)")
-valaflags("-g --vapidir=$(OUT)")

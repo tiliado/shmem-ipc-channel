@@ -1,0 +1,2 @@
+#include "shmchannel.h"
+

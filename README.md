@@ -15,8 +15,8 @@ Basic Info
   - **Test suite:** TODO
   - **Status:** ABI-unstable
 
-Build Info
-----------
+Vala/C Library
+--------------
 
 ### Dependencies
 
@@ -32,3 +32,11 @@ Build Info
 ./configure
 make all
 ```
+
+Python 3 Module
+---------------
+
+### Dependencies
+
+  - cffi
+  - Python 3.6
