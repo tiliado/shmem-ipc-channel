@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<book xmlns="http://www.devhelp.net/book" title="shmchannel Reference Manual" language="vala" name="shmchannel" version="" author="" link="index.htm">
+  <chapters><sub name="Shmch" link="Shmch.html"><sub name="IncomingRequest" link="Shmch.IncomingRequest.html"></sub>
+      <sub name="Shmem" link="Shmch.Shmem.html"></sub><sub name="Channel" link="Shmch.Channel.html"></sub><sub name="Mode" link="Shmch.Mode.html">
+      </sub><sub name="Error" link="Shmch.Error.html"></sub></sub>
+  </chapters><functions><keyword type="function" name="Shmch.IncomingRequest.get_data" link="Shmch.IncomingRequest.get_data.html"/>
+    <keyword type="function" name="Shmch.IncomingRequest.send_response" link="Shmch.IncomingRequest.send_response.html"/>
+    <keyword type="" name="Shmch.IncomingRequest" link="Shmch.IncomingRequest.html"/>
+    <keyword type="function" name="Shmch.Shmem.get_buffer" link="Shmch.Shmem.get_buffer.html"/>
+    <keyword type="function" name="Shmch.Shmem.close" link="Shmch.Shmem.close.html"/>
+    <keyword type="function" name="Shmch.Shmem.Shmem" link="Shmch.Shmem.Shmem.html"/>
+    <keyword type="property" name="Shmch.Shmem.name" link="Shmch.Shmem.name.html"/>
+    <keyword type="property" name="Shmch.Shmem.size" link="Shmch.Shmem.size.html"/>
+    <keyword type="property" name="Shmch.Shmem.pointer" link="Shmch.Shmem.pointer.html"/><keyword type="" name="Shmch.Shmem" link="Shmch.Shmem.html"/>
+    <keyword type="function" name="Shmch.Channel.open" link="Shmch.Channel.open.html"/>
+    <keyword type="function" name="Shmch.Channel.set_request_callback" link="Shmch.Channel.set_request_callback.html"/>
+    <keyword type="function" name="Shmch.Channel.set_notification_callback" link="Shmch.Channel.set_notification_callback.html"/>
+    <keyword type="function" name="Shmch.Channel.request" link="Shmch.Channel.request.html"/>
+    <keyword type="function" name="Shmch.Channel.notify" link="Shmch.Channel.notify.html"/>
+    <keyword type="function" name="Shmch.Channel.send_receive" link="Shmch.Channel.send_receive.html"/>
+    <keyword type="function" name="Shmch.Channel.close" link="Shmch.Channel.close.html"/>
+    <keyword type="function" name="Shmch.Channel.Channel" link="Shmch.Channel.Channel.html"/>
+    <keyword type="property" name="Shmch.Channel.name" link="Shmch.Channel.name.html"/>
+    <keyword type="property" name="Shmch.Channel.mode" link="Shmch.Channel.mode.html"/>
+    <keyword type="property" name="Shmch.Channel.is_opened" link="Shmch.Channel.is_opened.html"/>
+    <keyword type="" name="Shmch.Channel" link="Shmch.Channel.html"/>
+    <keyword type="function" name="Shmch.get_error_message" link="Shmch.get_error_message.html"/>
+    <keyword type="" name="Shmch.DataCallback" link="Shmch.DataCallback.html"/>
+    <keyword type="" name="Shmch.RequestCallback" link="Shmch.RequestCallback.html"/>
+    <keyword type="" name="Shmch.Mode.SERVER" link="Shmch.Mode.SERVER.html"/><keyword type="" name="Shmch.Mode.CLIENT" link="Shmch.Mode.CLIENT.html"/>
+    <keyword type="enum" name="Shmch.Mode" link="Shmch.Mode.html"/><keyword type="function" name="Shmch.Error.quark" link="Shmch.Error.quark.html"/>
+    <keyword type="" name="Shmch.Error.ALREADY_OPEN" link="Shmch.Error.ALREADY_OPEN.html"/>
+    <keyword type="" name="Shmch.Error.CLOSED" link="Shmch.Error.CLOSED.html"/>
+    <keyword type="" name="Shmch.Error.INVALID_NAME" link="Shmch.Error.INVALID_NAME.html"/>
+    <keyword type="" name="Shmch.Error.INVALID_SIZE" link="Shmch.Error.INVALID_SIZE.html"/>
+    <keyword type="" name="Shmch.Error.SHM_OPEN_FAILED" link="Shmch.Error.SHM_OPEN_FAILED.html"/>
+    <keyword type="" name="Shmch.Error.SHM_CLOSE_FAILED" link="Shmch.Error.SHM_CLOSE_FAILED.html"/>
+    <keyword type="" name="Shmch.Error.RESOURCE_LIMIT" link="Shmch.Error.RESOURCE_LIMIT.html"/>
+    <keyword type="" name="Shmch.Error" link="Shmch.Error.html"/><keyword type="" name="Shmch" link="Shmch.html"/>
+  </functions>
+</book>

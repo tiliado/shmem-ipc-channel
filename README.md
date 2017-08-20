@@ -10,7 +10,7 @@ Basic Info
   - **Author:** Jiří Janoušek
   - **License:** [BSD-2-Clause](./LICENSE)
   - **Supported platforms:** Unix with POSIX shared memory and POSIX semaphores.
-  - **Documentation:** See doc comments. TODO: Generate Valadoc.
+  - **Documentation:** See [lib/doc](./lib/doc)
   - **Examples:** See [lib/examples](./lib/examples)
   - **Test suite:** TODO
   - **Status:** ABI-unstable

@@ -201,7 +201,7 @@ private struct Slots {
 /**
  * The metadata of pending outgoing request.
  */
-public class OutgoingRequest {
+private  class OutgoingRequest {
     /**
      * The request id.
      */

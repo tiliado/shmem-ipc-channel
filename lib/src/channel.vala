@@ -101,7 +101,7 @@ public class Channel {
     /**
      * Open the channel.
      *
-     * @throws Error on failure: {@link Error.ALREADY_OPEN}, {@link Error.INVALID_NAME}, {@link Error.SHM_OPEN}.
+     * @throws Error on failure: {@link Error.ALREADY_OPEN}, {@link Error.INVALID_NAME}, {@link Error.SHM_OPEN_FAILED}.
      */
     public void open() throws Error {
         if (is_opened) {

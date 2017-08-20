@@ -56,12 +56,12 @@ public class Shmem {
      *
      * @param name       The shared memory name. It must contains only a single `/` at the very beginning
      *                    and not exceed 255 characters.
-     * @param site       The shared memory size. It may be 0 if `create` is `true` and the actual size will
+     * @param size       The shared memory size. It may be 0 if `create` is `true` and the actual size will
      *                    used instead and available as {@link size}.
      * @param create     Whether to create new shared memory region or to open an existing one.
      * @param discard    Whether to discard the shared memory region or let it be alive upon {@link close}.
      * @throws Error on failure: {@link Error.INVALID_NAME}, {@link Error.INVALID_SIZE},
-     *     {{@link Error.SHM_OPEN_FAILED}.
+     *     {@link Error.SHM_OPEN_FAILED}.
      */
     public Shmem(string name, ulong size, bool create, bool discard) throws Error {
         if (name == null || name[0] != '/' || name.index_of_char('/', 1) >= 0 || name.length > 255) {
