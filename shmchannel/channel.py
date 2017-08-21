@@ -1,14 +1,13 @@
 import asyncio
-from typing import List
 
-from libshmch import MODE_SERVER, MODE_CLIENT
 from shmchannel import libshmch
 
-Role = int
+MODE_SERVER, MODE_CLIENT = libshmch.MODE_SERVER, libshmch.MODE_CLIENT
+Mode = int
 
 
 class Channel:
-    def __init__(self, name: str, role: Role):
+    def __init__(self, name: str, role: Mode):
         self._name = name
         self._role = role
         self._channel = libshmch.channel_new(name, role)
@@ -25,7 +24,7 @@ class Channel:
         return self._name
 
     @property
-    def role(self) -> Role:
+    def role(self) -> Mode:
         return self._role
 
     def open(self):
@@ -62,43 +61,3 @@ class Channel:
         while True:
             libshmch.channel_send_receive(self._channel, False)
             await asyncio.sleep(0.001)
-
-
-if __name__ == "__main__":
-    _mode = None
-
-    def _notification_received(data: bytes):
-        print("%s: Notification received: %s" % (_mode, data.decode()))
-
-    async def _request_received(data: bytes) -> bytes:
-        for i in reversed(range(5)):
-            print("%s: Request received: %s ... %d" % (_mode, data.decode(), i))
-            await asyncio.sleep(1)
-
-        return data
-
-
-    async def _main(args: List[str]) -> int:
-        global _mode
-        if len(args) == 3:
-            _mode = MODE_SERVER if args[1] == "server" else MODE_CLIENT
-            message = args[2]
-            channel = Channel("/test", _mode)
-            channel.set_notification_callback(_notification_received)
-            channel.set_request_callback(_request_received)
-            channel.open()
-
-            task = asyncio.ensure_future(channel.send_receive())
-            channel.notify(message.encode())
-            print("Request sent:", message)
-            data = await channel.request(message.encode())
-            print("%s: Response received: %s" % (_mode, data.decode()))
-            await task
-            channel.close()
-        return 0
-
-    import sys
-    _loop = asyncio.get_event_loop()
-    _main.running = True
-    code = _loop.run_until_complete(_main(sys.argv))
-    sys.exit(code or 0)
