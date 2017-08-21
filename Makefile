@@ -15,10 +15,10 @@ LIB_DOC_HTML := "doc/lib/html"
 LIB_DOC_DEVHELP := "doc/lib/devhelp"
 LIB_DOC_PRIVATE := "doc/lib/private"
 
-PROG_BINNAME := example
-PROG_VALA_FILES := $(wildcard lib/examples/*.vala)
-PROG_VAPI_FILES := $(wildcard lib/examples/*.vapi)
-PROG_VALA_ALL := $(OUT)/$(PROG_BINNAME)
+PROG_BINNAME := channel
+PROG_VALA_FILES := $(wildcard examples/vala/*.vala)
+PROG_VAPI_FILES := $(wildcard examples/vala/*.vapi)
+PROG_VALA_ALL := $(OUT)/vala/$(PROG_BINNAME)
 
 build-lib: $(LIB_VALA_ALL) $(OUT)/$(LIB_TYPELIB) $(PROG_VALA_ALL)
 
@@ -35,7 +35,8 @@ $(LIB_VALA_ALL): $(LIB_VALA_FILES) $(LIB_VAPI_FILES) | $(OUT)
 $(OUT)/$(LIB_TYPELIB): $(OUT)/$(LIB_GIRNAME)
 	g-ir-compiler --output=$@ $^
 
-$(OUT)/$(PROG_BINNAME): $(PROG_VALA_FILES) $(PROG_VAPI_FILES) | $(OUT) $(OUT)/$(LIB_LIBNAME)
+$(OUT)/vala/$(PROG_BINNAME): $(PROG_VALA_FILES) $(PROG_VAPI_FILES) | $(OUT) $(OUT)/$(LIB_LIBNAME)
+	mkdir -p $(OUT)/vala
 	valac --save-temps -v -d $(OUT) $(VALAFLAGS) $^ --target-glib $(TARGET_GLIB) \
 	--pkg posix --pkg $(PROJECT) -X -l$(LIB_NAME) -o ../$@
 

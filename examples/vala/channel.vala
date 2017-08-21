@@ -13,7 +13,7 @@ void request_received(Shmch.IncomingRequest request) {
     request.send_response(request.get_data());
 }
 
-void main(string[] args) {
+int main(string[] args) {
     if (args.length == 3) {
         role = args[1] == "server" ? Shmch.Mode.SERVER : Shmch.Mode.CLIENT;
         var message = args[2];
@@ -22,11 +22,16 @@ void main(string[] args) {
         channel.set_request_callback(request_received);
         channel.open();
         channel.request(message.data, response_received);
+        stdout.printf("Request sent: %s\n", message);
         channel.notify(message.data);
         while (true) {
             channel.send_receive(true);
             Thread.usleep(100000);
         }
         channel.close();
+        return 0;
+    } else {
+        stderr.printf("Usage: %s server|client message\n", args[0]);
+        return 1;
     }
 }
