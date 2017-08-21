@@ -1,6 +1,7 @@
 include config.mk
-PREFIX ?= /usr
+
 DESTDIR ?=
+
 LIB_NAME := $(PROJECT)
 LIB_GIRNAME := Shmch-1.0.gir
 LIB_TYPELIB := Shmch-1.0.typelib
@@ -19,7 +20,7 @@ PROG_VALA_FILES := $(wildcard lib/examples/*.vala)
 PROG_VAPI_FILES := $(wildcard lib/examples/*.vapi)
 PROG_VALA_ALL := $(OUT)/$(PROG_BINNAME)
 
-all: $(LIB_VALA_ALL) $(OUT)/$(LIB_TYPELIB) $(PROG_VALA_ALL)
+build-lib: $(LIB_VALA_ALL) $(OUT)/$(LIB_TYPELIB) $(PROG_VALA_ALL)
 
 $(OUT):
 	mkdir -pv $@
@@ -46,15 +47,32 @@ doc-lib: $(LIB_VALA_FILES) $(LIB_VAPI_FILES)
 	rm -rf $(LIB_DOC_DEVHELP)
 	valadoc --package-name=$(LIB_NAME) -o $(LIB_DOC_DEVHELP) --doclet=devhelp --pkg posix $^
 
-cffi-shmch:
-	python3.6 ./cffibuilders/shmch.py
+python-shmchannel:
+	$(PYTHON) setup.py build --build-temp="$(OUT)/python"
+	mkdir -p "$(OUT)/pyffi"
+	for item in "$(OUT)/"lib.linux-*-*/shmchannel/*.so; do ln -svf "../../$$item" "$(OUT)/pyffi"; done
 
 typelib-symlink:
 	ln -sv "$(PWD)/$(OUT)/$(LIB_TYPELIB)" "/usr/lib/girepository-1.0/$(LIB_TYPELIB)"
 
-install: all
-	mkdir -p $(DESTDIR)$(PREFIX)/lib/girepository-1.0
-	cp -v $(OUT)/$(LIB_TYPELIB) $(DESTDIR)$(PREFIX)/lib/girepository-1.0/
+install-lib:
+	mkdir -pv "$(DESTDIR)$(LIBDIR)"
+	cp -v "$(OUT)/$(LIB_LIBNAME)" "$(DESTDIR)$(LIBDIR)"
+	mkdir -pv "$(DESTDIR)$(GIRDIR)"
+	cp -v "$(OUT)/$(LIB_TYPELIB)" "$(DESTDIR)$(GIRDIR)"
+	mkdir -pv "$(DESTDIR)$(VAPIDIR)"
+	cp -v "$(OUT)/$(LIB_VAPINAME)" "$(DESTDIR)$(VAPIDIR)"
+	mkdir -pv "$(DESTDIR)$(TYPELIBDIR)"
+	cp -v "$(OUT)/$(LIB_TYPELIB)" "$(DESTDIR)$(TYPELIBDIR)"
+	mkdir -pv "$(DESTDIR)$(INCLUDEDIR)"
+	cp -v "$(OUT)/$(LIB_HEADERNAME)" "$(DESTDIR)$(INCLUDEDIR)"
+	mkdir -pv "$(DESTDIR)$(PRJDOCDIR)"
+	cp -rv "$(LIB_DOC_HTML)" "$(DESTDIR)$(PRJDOCDIR)"
+	mkdir -pv "$(DESTDIR)$(DEVHELPDIR)"
+	cp -rv "$(LIB_DOC_DEVHELP)/$(LIB_NAME)" "$(DESTDIR)$(DEVHELPDIR)"
+
+install-python-shmchannel:
+	$(PYTHON) setup.py install --root "$(DESTDIR)" --prefix "$(PREFIX)"
 
 clean:
 	rm -rf $(OUT)

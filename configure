@@ -1,12 +1,34 @@
 #!/usr/bin/env python3
 import buildconfig as bld
 
-bld.project("shmchannel", "0.0.1")
+name, version = bld.project("shmchannel", "0.0.1")
+
+bld.arg("python", "python3.6", "Target Python version.")
+bld.arg("prefix", "/usr/local", "System installation prefix.")
+bld.arg("libdir", "$(PREFIX)/lib", "System installation library path.")
+bld.arg("datadir", "$(PREFIX)/share", "System data path.")
+bld.arg("docdir", "$(DATADIR)/doc", "System documentation path.")
+bld.arg("prjdocdir", "$(DOCDIR)/$(PROJECT)", "System documentation path for this project.")
+bld.arg("devhelpdir", "$(DATADIR)/devhelp/books", "System Devhelp books path.")
+bld.arg("includedir", "$(PREFIX)/include", "System installation include path.")
+bld.arg("vapidir", "$(DATADIR)/vala/vapi", "System data path for Vala API (*.vapi) files.")
+bld.arg("girdir", "$(DATADIR)/gir-1.0", "System data path for GIR XML (*.gir) files.")
+bld.arg("typelibdir", "$(LIBDIR)/girepository-1.0", "System installation path for GI typelib (*.typelib) files.")
+python_mod = bld.arg("python-module", True, "Whether to build Python module (cffi required).")
+
 bld.var("CC ?= gcc")
-bld.var("OUT := build\n")
+bld.var("OUT := build")
 bld.var("TARGET_GLIB := %s", bld.pkg_version("glib-2.0", 2))
+
 bld.cflags("-g -O3 -I$(OUT)")
 bld.ldflags("-L$(OUT)")
 bld.valaflags("-g --vapidir=$(OUT)")
+
+bld.build("build-lib")
+bld.install("lib")
+if python_mod():
+    bld.build("python-shmchannel")
+    bld.install("python-shmchannel")
+
 bld.finish()
 

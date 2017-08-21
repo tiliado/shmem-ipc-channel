@@ -90,6 +90,7 @@ if __name__ == "__main__":
 
             task = asyncio.ensure_future(channel.send_receive())
             channel.notify(message.encode())
+            print("Request sent:", message)
             data = await channel.request(message.encode())
             print("%s: Response received: %s" % (_mode, data.decode()))
             await task

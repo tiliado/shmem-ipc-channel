@@ -4,9 +4,13 @@ from typing import Any, Callable
 try:
     # noinspection PyUnresolvedReferences
     from shmchannel.libshmch_cffi import ffi, lib
-except ImportError:
-    # noinspection PyUnresolvedReferences
-    from build.cffi.libshmch_cffi import ffi, lib
+except ImportError as e:
+    try:
+        # noinspection PyUnresolvedReferences,PyPackageRequirements
+        from build.pyffi.libshmch_cffi import ffi, lib
+    except ImportError:
+        raise e
+
 
 MODE_CLIENT = lib.SHMCH_MODE_CLIENT
 MODE_SERVER = lib.SHMCH_MODE_SERVER

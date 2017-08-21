@@ -19,7 +19,7 @@ with open(os.path.join(directory, "shmch.h")) as fh:
 
 builder = FFI()
 builder.set_source(
-    "libshmch_cffi",
+    "shmchannel.libshmch_cffi",
     source,
     libraries=["shmchannel"],
     include_dirs=[build] + extract_include_dirs(),
