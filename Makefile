@@ -53,6 +53,19 @@ python-shmchannel:
 	mkdir -p "$(OUT)/pyffi"
 	for item in "$(OUT)/"lib.linux-*-*/shmchannel/*.so; do ln -svf "../../$$item" "$(OUT)/pyffi"; done
 
+build/nodejs/binding.gyp: nodejs/binding.gyp.in
+	mkdir -p build/nodejs
+	sed -e 's#"@INCLUDE_DIRS@"#$(GYP_INCLUDE_DIRS)#g' $^  > $@
+
+build/nodejs/_shmchannel.cc: nodejs/wrap_shmchannel.py
+	mkdir -p build/nodejs
+	$^ > $@
+
+nodejs-shmchannel: build/nodejs/binding.gyp build/nodejs/_shmchannel.cc
+	node-gyp -C build/nodejs configure
+	node-gyp -C build/nodejs build
+#	HOME=~/.electron-gyp node-gyp -C nodejs build --arch=x64 --target=1.7.6 --dist-url=https://atom.io/download/electron
+
 typelib-symlink:
 	ln -sv "$(PWD)/$(OUT)/$(LIB_TYPELIB)" "/usr/lib/girepository-1.0/$(LIB_TYPELIB)"
 
@@ -74,6 +87,12 @@ install-lib:
 
 install-python-shmchannel:
 	$(PYTHON) setup.py install --root "$(DESTDIR)" --prefix "$(PREFIX)"
+
+install-nodejs-shmchannel:
+	mkdir -pv "$(DESTDIR)$(LIBDIR)/node_modules/_shmchannel"
+	cp $(OUT)/nodejs/build/Release/_shmchannel.node "$(DESTDIR)$(LIBDIR)/node_modules/_shmchannel"
+	mkdir -pv "$(DESTDIR)$(LIBDIR)/node_modules/shmchannel"
+	cp nodejs/shmchannel.js "$(DESTDIR)$(LIBDIR)/node_modules/shmchannel"
 
 clean:
 	rm -rf $(OUT)

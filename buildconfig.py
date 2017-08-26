@@ -81,10 +81,20 @@ def pkg_version(mod: str, parts: int = 0) -> str:
     return ".".join(version.split(".")[0:parts]) if parts else version
 
 
-def pkg(mod: str):
+def get_pkg(mod: str):
+    cflags = []
+    ldflags = []
     for mod in mod.split():
-        CFLAGS.append(stdout(["pkg-config", "--cflags", mod]).strip())
-        LDFLAGS.append(stdout(["pkg-config", "--libs", mod]).strip())
+        cflags.append(stdout(["pkg-config", "--cflags", mod]).strip())
+        ldflags.append(stdout(["pkg-config", "--libs", mod]).strip())
+    return cflags, ldflags
+
+
+def add_pkg(mod: str):
+    cflags, ldflags = get_pkg(mod)
+    CFLAGS.extend(cflags)
+    LDFLAGS.extend(ldflags)
+    return cflags, ldflags
 
 
 def var(definition, *args):
@@ -102,8 +112,8 @@ def project(name, version):
     return PROJECT
 
 
-def extract_include_dirs():
-    return [flag[2:] for flag in _shlex.split(" ".join(CFLAGS)) if flag.startswith("-I")]
+def extract_include_dirs(cflags=CFLAGS):
+    return [flag[2:] for flag in _shlex.split(" ".join(cflags)) if flag.startswith("-I")]
 
 
 def finish():

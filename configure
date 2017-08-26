@@ -15,10 +15,13 @@ bld.arg("vapidir", "$(DATADIR)/vala/vapi", "System data path for Vala API (*.vap
 bld.arg("girdir", "$(DATADIR)/gir-1.0", "System data path for GIR XML (*.gir) files.")
 bld.arg("typelibdir", "$(LIBDIR)/girepository-1.0", "System installation path for GI typelib (*.typelib) files.")
 python_mod = bld.arg("python-module", True, "Whether to build Python module (cffi required).")
+nodejs_mod = bld.arg("nodejs-module", True, "Whether to build NodeJS module (node-gyp required).")
 
 bld.var("CC ?= gcc")
 bld.var("OUT := build")
 bld.var("TARGET_GLIB := %s", bld.pkg_version("glib-2.0", 2))
+bld.var("GYP_INCLUDE_DIRS := %s", ", ".join(('"%s"' % s)
+        for s in ([".."] + bld.extract_include_dirs(bld.get_pkg("glib-2.0")[0]))))
 
 bld.cflags("-g -O3 -I$(OUT)")
 bld.ldflags("-L$(OUT)")
@@ -29,6 +32,9 @@ bld.install("lib")
 if python_mod():
     bld.build("python-shmchannel")
     bld.install("python-shmchannel")
+if nodejs_mod():
+    bld.build("nodejs-shmchannel")
+    bld.install("nodejs-shmchannel")
 
 bld.finish()
 

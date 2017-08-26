@@ -9,10 +9,10 @@ Basic Info
 
   - **Author:** Jiří Janoušek
   - **License:** [BSD-2-Clause](./LICENSE)
-  - **Supported Runtimes:** Vala/C, Python 3.6/asyncio
+  - **Supported Runtimes:** Vala/C, Python 3.6/asyncio, JavaScript/NodeJS
   - **Supported Platforms:** Unix with POSIX shared memory and POSIX semaphores.
-  - **Documentation:** Vala → [lib/doc](./lib/doc), Python → TODO. 
-  - **Examples:** See examples section bellow or [./examples](./examples)
+  - **Documentation:** Vala → [lib/doc](./lib/doc), Python → TODO, JavaScript -> TODO. 
+  - **Examples:** See examples section bellow or in [./examples](./examples)
   - **Test Suite:** TODO
   - **Status:** Early alpha, ABI-unstable
 
@@ -117,6 +117,46 @@ if __name__ == "__main__":
     sys.exit(loop.run_until_complete(main(sys.argv) or 0))
 ```
 
+### JavaScript/NodeJS
+
+- Source: [examples/nodejs/channel.js](./examples/nodejs/channel.js)
+- Run as: `node examples/nodejs/channel.js server "Message from server."` and
+    `node examples/nodejs/channel.js client "Message from client."`
+
+```javascript
+const {Channel, StringDataConverter, MODE_CLIENT, MODE_SERVER} = require('shmchannel')
+
+function onNotification(data) {
+  console.log("Notification received: %sn", data)
+}
+
+function onRequest(data, respond) {
+  console.log("Request received: %s", data)
+  respond("You have sent: " + data)
+}
+
+async function main(args) {
+  if (args.length === 4) {
+    let role = args[2] === "server" ? MODE_SERVER : MODE_CLIENT
+    let message = args[3]
+    let channel = new Channel("/test", role, onRequest, onNotification, new StringDataConverter())
+    channel.open()
+    let loop = channel.startCommunication()
+    console.log("Request sent: %s", message)
+    let response = await channel.request(message)
+    console.log("Response received: %s", response)
+    channel.notify(message)
+    await loop
+    channel.close()
+    return 0;
+  } else {
+    console.log("Usage: %s %s server|client message", args[0], args[1]);
+    return 1;
+  }
+}
+
+main(process.argv).catch(function(e){console.log("Error: %s", e)})
+```
 ### Mixed
 
   - **Vala server:** `./channel server "Message from server."`:
@@ -155,6 +195,11 @@ Dependencies
       - Python 3.6
       - setuptools
       - cffi
+  - **NodeJS Bindings:**
+      - NodeJS (including headers)
+      - Python 3
+      - node-gyp
+      - C++ compiler
 
 Build Instructions
 ------------------

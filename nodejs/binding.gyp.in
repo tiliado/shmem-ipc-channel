@@ -1,0 +1,12 @@
+{
+  "targets": [
+    {
+      "target_name": "_shmchannel",
+      "sources": [ "_shmchannel.cc" ],
+      "include_dirs": ["@INCLUDE_DIRS@"],
+      "libraries": [
+            "-lshmchannel", "-L../.."
+          ]
+    }
+  ]
+}
